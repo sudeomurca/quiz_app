@@ -13,12 +13,17 @@ class Quiz extends StatefulWidget{
 }
 //private class yukardaki classa bağlanır
 class _QuizState extends State<Quiz>{
+  final List <String> selectedAnswers=[];
 var activeScreen='start-screen';//herhangi değişken değeri int de olabilirdi
 
 void switchScreen(){
   setState(()  {
     activeScreen= 'questions-screen';
   });
+}
+
+void chooseAnswer(String answer){
+  selectedAnswers.add(answer);
 }
   
   
@@ -33,7 +38,8 @@ void switchScreen(){
      Widget screenWidget=StartScreen(switchScreen);
      if(activeScreen== 'questions-screen')
      {
-      screenWidget=const QuestionsScreen();
+      screenWidget= QuestionsScreen(
+        onSelectAnswer:chooseAnswer,);
      }
      
 
