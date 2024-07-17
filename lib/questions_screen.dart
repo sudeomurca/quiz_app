@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:quiz_app/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key,required this.onSelectAnswer,});
+  const QuestionsScreen({
+    super.key,
+    required this.onSelectAnswer,
+    });
 
 final void Function(String answer) onSelectAnswer;
 
@@ -16,9 +20,10 @@ final void Function(String answer) onSelectAnswer;
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentQuestionIndex=0;
+
   void answerQuestion(String selectedAnswers){
     //widget. sayesinde yukardakiclassta verilen onselect fonk burada kullanılabilir
-    widget.onSelectAnswer('..');
+    widget.onSelectAnswer(selectedAnswers);
     setState(() {
       currentQuestionIndex++;
     });
@@ -52,7 +57,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             const SizedBox(
               height: 30,
             ),
-            //item random bir isim
+            // answer random bir isim
             ...currentQuestion.getShuffledAnswers().map((answer) {
               return AnswerButton(
                 answerText: answer, 

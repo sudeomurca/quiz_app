@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+
+import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/questions_screen.dart';
 import 'package:quiz_app/start_screen.dart';
+import 'package:quiz_app/results_screen.dart';
+
 
 //BURADA Quiz classı bir ağaçsa QuestionsScreen ve StartScreen dallardır.
 class Quiz extends StatefulWidget{
   const Quiz({super.key});
   @override
-  State<Quiz> createState() {
+  State<Quiz> createState() { 
     return _QuizState();
   }
 
 }
 //private class yukardaki classa bağlanır
 class _QuizState extends State<Quiz>{
-  final List <String> selectedAnswers=[];
+ List <String> selectedAnswers=[];
 var activeScreen='start-screen';//herhangi değişken değeri int de olabilirdi
 
 void switchScreen(){
@@ -24,6 +28,19 @@ void switchScreen(){
 
 void chooseAnswer(String answer){
   selectedAnswers.add(answer);
+  if (selectedAnswers.length==questions.length)
+  {
+    setState(() {
+      
+      activeScreen='results-screen';
+    });
+  }
+}
+void restartQuiz(){
+  setState(() {
+    selectedAnswers=[];
+    activeScreen='questions-screen';
+  });
 }
   
   
@@ -36,12 +53,21 @@ void chooseAnswer(String answer){
   Widget build(context){
      
      Widget screenWidget=StartScreen(switchScreen);
+
      if(activeScreen== 'questions-screen')
      {
       screenWidget= QuestionsScreen(
         onSelectAnswer:chooseAnswer,);
      }
      
+     //chosenAnswes equal to selected
+     if (activeScreen=='results-screen'){
+      screenWidget= ResultsScreen(
+        chosenAnswers:selectedAnswers,
+        onRestart:restartQuiz,
+      );
+
+     }
 
     return  MaterialApp(
       home: Scaffold(
